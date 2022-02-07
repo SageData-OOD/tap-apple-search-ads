@@ -12,9 +12,9 @@ from singer import utils, metadata
 from singer.catalog import Catalog, CatalogEntry
 from singer.schema import Schema
 from singer.transform import transform
-from access_token import AccessToken
-from client_secret import ClientSecret
-from request_headers import RequestHeaders
+from .access_token import AccessToken
+from .client_secret import ClientSecret
+from .request_headers import RequestHeaders
 
 HOST_URL = "https://api.searchads.apple.com/api/v4"
 OAUTH_URL = "https://appleid.apple.com/auth/oauth2/token"
@@ -119,7 +119,7 @@ def get_properties_for_auto_inclusion(stream_id, key_properties, replication_key
 def create_metadata_for_report(stream_id, schema, key_properties):
     replication_key = get_bookmark(stream_id)
     mdata = [{"breadcrumb": [], "metadata": {"inclusion": "available", "forced-replication-method": "INCREMENTAL",
-                                             "valid-replication-keys": [replication_key], "selected": True}}]
+                                             "valid-replication-keys": [replication_key]}}]
     if key_properties:
         mdata[0]["metadata"]["table-key-properties"] = key_properties
 
@@ -134,11 +134,11 @@ def create_metadata_for_report(stream_id, schema, key_properties):
             for prop in schema.properties.get(key).properties:
                 inclusion = "automatic" if prop in auto_inclusion else "available"
                 mdata.append({"breadcrumb": ["properties", key, "properties", prop],
-                              "metadata": {"inclusion": inclusion, "selected": True}})
+                              "metadata": {"inclusion": inclusion}})
 
         else:
             inclusion = "automatic" if key in auto_inclusion else "available"
-            mdata.append({"breadcrumb": ["properties", key], "metadata": {"inclusion": inclusion, "selected": True}})
+            mdata.append({"breadcrumb": ["properties", key], "metadata": {"inclusion": inclusion}})
 
     return mdata
 
@@ -303,6 +303,7 @@ def sync_reports(config, state, stream, headers=None):
 
                     row = refactor_property_name(row)
                     row["record_id"] = generate_id(row, stream.tap_stream_id)
+
                     # Type Conversation and Transformation
                     transformed_data = transform(row, schema, metadata=mdata)
 
@@ -433,6 +434,4 @@ def main():
 
 
 if __name__ == "__main__":
-    # main()
-    catalog = discover()
-    print("y")
+    main()
