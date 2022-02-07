@@ -2,50 +2,48 @@
     "type": ["null", "object"],
     "properties": {
         "insights": {"type": ["null", "string"]},
-        "granularity": {
-            "type": ["null", "array"],
-            "items": {
-                "type": ["null", "object"],
-                "properties": {
-                    "avg_cpa": {
-                        "type": ["null", "object"],
-                        "properties": {
-                          "amount": {"type": ["null", "string"]},
-                          "currency": {"type": ["null", "string"]}
-                        }
-                    },
-                    "avg_cpm": {
-                        "type": ["null", "object"],
-                        "properties": {
-                          "amount": {"type": ["null", "string"]},
-                          "currency": {"type": ["null", "string"]}
-                        }
-                    },
-                    "avg_cpt": {
-                        "type": ["null", "object"],
-                        "properties": {
-                          "amount": {"type": ["null", "string"]},
-                          "currency": {"type": ["null", "string"]}
-                        }
-                    },
-                    "conversion_rate": {"type": ["null", "number"]},
-                    "date": {"type": ["null", "string"], "format": "date-time"},
-                    "impressions": {"type": ["null", "integer"]},
-                    "installs": {"type": ["null", "integer"]},
-                    "lat_off_installs": {"type": ["null", "integer"]},
-                    "lat_on_installs": {"type": ["null", "integer"]},
-                    "local_spend": {
-                        "type": ["null", "object"],
-                        "properties": {
-                          "amount": {"type": ["null", "string"]},
-                          "currency": {"type": ["null", "string"]}
-                        }
-                    },
-                    "new_downloads": {"type": ["null", "integer"]},
-                    "redownloads": {"type": ["null", "integer"]},
-                    "taps": {"type": ["null", "integer"]},
-                    "ttr": {"type": ["null", "number"]}
-                }
+        "record_id": {"type": ["null", "string"]},
+        "metrics": {
+            "type": ["null", "object"],
+            "properties": {
+                "avg_cpa": {
+                    "type": ["null", "object"],
+                    "properties": {
+                      "amount": {"type": ["null", "string"]},
+                      "currency": {"type": ["null", "string"]}
+                    }
+                },
+                "avg_cpm": {
+                    "type": ["null", "object"],
+                    "properties": {
+                      "amount": {"type": ["null", "string"]},
+                      "currency": {"type": ["null", "string"]}
+                    }
+                },
+                "avg_cpt": {
+                    "type": ["null", "object"],
+                    "properties": {
+                      "amount": {"type": ["null", "string"]},
+                      "currency": {"type": ["null", "string"]}
+                    }
+                },
+                "conversion_rate": {"type": ["null", "number"]},
+                "date": {"type": ["null", "string"], "format": "date-time"},
+                "impressions": {"type": ["null", "integer"]},
+                "installs": {"type": ["null", "integer"]},
+                "lat_off_installs": {"type": ["null", "integer"]},
+                "lat_on_installs": {"type": ["null", "integer"]},
+                "local_spend": {
+                    "type": ["null", "object"],
+                    "properties": {
+                      "amount": {"type": ["null", "string"]},
+                      "currency": {"type": ["null", "string"]}
+                    }
+                },
+                "new_downloads": {"type": ["null", "integer"]},
+                "redownloads": {"type": ["null", "integer"]},
+                "taps": {"type": ["null", "integer"]},
+                "ttr": {"type": ["null", "number"]}
             }
         },
         "metadata": {

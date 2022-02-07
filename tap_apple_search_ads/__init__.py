@@ -76,30 +76,50 @@ def load_schemas():
     return schemas
 
 
-def get_bookmark(stream_id):
-    bookmark = {
-        "campaigns": "modification_time",
-        "ad_groups": "modification_time"
+def generate_id(row, stream_id):
+    date = str(row["metrics"]["date"])
+    campaign_id = str(row["metadata"].get("campaign_id"))
+    ad_group_id = str(row["metadata"].get("ad_group_id"))
+    ad_id = str(row["metadata"].get("ad_id"))
+    keyword_id = str(row["metadata"].get("keyword_id"))
+
+    key_properties = {
+        "ad_level_reports": [date, campaign_id, ad_group_id, ad_id],
+        "ad_group_level_reports": [date, campaign_id, ad_group_id],
+        "campaign_level_reports": [date, campaign_id],
+        "search_term_level_reports": [date, campaign_id, keyword_id]
     }
-    return bookmark.get(stream_id, "date")
+    return "#".join(key_properties[stream_id])
 
 
 def get_key_properties(stream_id):
     key_properties = {
         "ad_groups": ["id"],
+        "campaigns": ["id"]
+    }
+    return key_properties.get(stream_id, ["record_id"])
+
+
+def get_bookmark(stream_id):
+    return "date"
+
+
+def get_properties_for_auto_inclusion(stream_id, key_properties, replication_key):
+    properties = {
+        "ad_groups": ["id"],
         "campaigns": ["id"],
-        "ad_level_reports": ["date", "campaign_id", "adGroup_id", "ad_id"],
-        "ad_group_level_reports": ["date", "campaign_id", "adGroup_id"],
+        "ad_level_reports": ["date", "campaign_id", "ad_group_id", "ad_id"],
+        "ad_group_level_reports": ["date", "campaign_id", "ad_group_id"],
         "campaign_level_reports": ["date", "campaign_id"],
         "search_term_level_reports": ["date", "campaign_id", "keyword_id"]
     }
-    return key_properties.get(stream_id, [])
+    return properties[stream_id] + key_properties + [replication_key]
 
 
 def create_metadata_for_report(stream_id, schema, key_properties):
     replication_key = get_bookmark(stream_id)
     mdata = [{"breadcrumb": [], "metadata": {"inclusion": "available", "forced-replication-method": "INCREMENTAL",
-                                             "valid-replication-keys": [replication_key]}}]
+                                             "valid-replication-keys": [replication_key], "selected": True}}]
     if key_properties:
         mdata[0]["metadata"]["table-key-properties"] = key_properties
 
@@ -107,18 +127,18 @@ def create_metadata_for_report(stream_id, schema, key_properties):
         mdata[0]["metadata"]["forced-replication-method"] = "FULL_TABLE"
         mdata[0]["metadata"].pop("valid-replication-keys")
 
-    auto_inclusion = key_properties + [replication_key] + ["granularity"]
+    auto_inclusion = get_properties_for_auto_inclusion(stream_id, key_properties, replication_key)
     for key in schema.properties:
         # hence, when property is object, we will only consider properties of that object without taking object itself.
         if "object" in schema.properties.get(key).type:
             for prop in schema.properties.get(key).properties:
                 inclusion = "automatic" if prop in auto_inclusion else "available"
                 mdata.append({"breadcrumb": ["properties", key, "properties", prop],
-                              "metadata": {"inclusion": inclusion}})
+                              "metadata": {"inclusion": inclusion, "selected": True}})
 
         else:
             inclusion = "automatic" if key in auto_inclusion else "available"
-            mdata.append({"breadcrumb": ["properties", key], "metadata": {"inclusion": inclusion}})
+            mdata.append({"breadcrumb": ["properties", key], "metadata": {"inclusion": inclusion, "selected": True}})
 
     return mdata
 
@@ -161,7 +181,7 @@ def camel_to_snake_case(name):
 
 def refactor_property_name(record):
     if isinstance(record, list):
-        return [refactor_property_name(r) if isinstance(r, (dict, list)) else camel_to_snake_case(r) for r in record]
+        return [refactor_property_name(r) if isinstance(r, (dict, list)) else r for r in record]
     else:
         converted_data = {camel_to_snake_case(k): v if not isinstance(v, (dict, list)) else refactor_property_name(v)
                           for k, v in record.items()}
@@ -228,6 +248,19 @@ def get_campaign_ids(stream_id, config, headers):
     return [c["id"] for c in campaigns]
 
 
+def refactor_records(tap_data):
+    # as we receive multiple metrics objects for single metadata(dimension)
+    records = []
+    for row in tap_data:
+        records += [{
+            "insights": row.get("insights"),
+            "metadata": row.get("metadata"),
+            "other": row.get("other"),
+            "metrics": metric
+        } for metric in row.get("granularity", [])]
+    return records
+
+
 def sync_reports(config, state, stream, headers=None):
     bookmark_column = get_bookmark(stream.tap_stream_id)
     mdata = metadata.to_map(stream.metadata)
@@ -263,9 +296,14 @@ def sync_reports(config, state, stream, headers=None):
             tap_data = request_data(config, headers, endpoint, query=query, campaign_id=cid)
 
             with singer.metrics.record_counter(stream.tap_stream_id) as counter:
-                for row in tap_data:
-                    # Type Conversation and Transformation
+                refactored_records = refactor_records(tap_data)
+                for row in refactored_records:
+                    if cid is not None:
+                        row["metadata"]["campaign_id"] = cid
+
                     row = refactor_property_name(row)
+                    row["record_id"] = generate_id(row, stream.tap_stream_id)
+                    # Type Conversation and Transformation
                     transformed_data = transform(row, schema, metadata=mdata)
 
                     # write one or more rows to the stream:
@@ -395,4 +433,6 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    # main()
+    catalog = discover()
+    print("y")
