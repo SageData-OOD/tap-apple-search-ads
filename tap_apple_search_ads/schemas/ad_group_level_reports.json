@@ -1,0 +1,90 @@
+{
+    "type": ["null", "object"],
+    "properties": {
+        "insights": {"type": ["null", "string"]},
+        "granularity": {
+            "type": ["null", "array"],
+            "items": {
+                "type": ["null", "object"],
+                "properties": {
+                    "avg_cpa": {
+                        "type": ["null", "object"],
+                        "properties": {
+                          "amount": {"type": ["null", "string"]},
+                          "currency": {"type": ["null", "string"]}
+                        }
+                    },
+                    "avg_cpm": {
+                        "type": ["null", "object"],
+                        "properties": {
+                          "amount": {"type": ["null", "string"]},
+                          "currency": {"type": ["null", "string"]}
+                        }
+                    },
+                    "avg_cpt": {
+                        "type": ["null", "object"],
+                        "properties": {
+                          "amount": {"type": ["null", "string"]},
+                          "currency": {"type": ["null", "string"]}
+                        }
+                    },
+                    "conversion_rate": {"type": ["null", "number"]},
+                    "date": {"type": ["null", "string"], "format": "date-time"},
+                    "impressions": {"type": ["null", "integer"]},
+                    "installs": {"type": ["null", "integer"]},
+                    "lat_off_installs": {"type": ["null", "integer"]},
+                    "lat_on_installs": {"type": ["null", "integer"]},
+                    "local_spend": {
+                        "type": ["null", "object"],
+                        "properties": {
+                          "amount": {"type": ["null", "string"]},
+                          "currency": {"type": ["null", "string"]}
+                        }
+                    },
+                    "new_downloads": {"type": ["null", "integer"]},
+                    "redownloads": {"type": ["null", "integer"]},
+                    "taps": {"type": ["null", "integer"]},
+                    "ttr": {"type": ["null", "number"]}
+                }
+            }
+        },
+        "metadata": {
+            "type": ["null", "object"],
+            "properties": {
+                "ad_group_id": {"type": ["null", "integer"]},
+                "ad_group_name": {"type": ["null", "string"]},
+                "start_time": {"type": ["null", "string"], "format": "date-time"},
+                "end_time": {"type": ["null", "string"], "format": "date-time"},
+                "cpa_goal": {
+                    "type": ["null", "object"],
+                    "properties": {
+                      "amount": {"type": ["null", "string"]},
+                      "currency": {"type": ["null", "string"]}
+                    }
+                },
+                "default_cpc_bid": {
+                    "type": ["null", "object"],
+                    "properties": {
+                      "amount": {"type": ["null", "string"]},
+                      "currency": {"type": ["null", "string"]}
+                    }
+                },
+                "deleted": {"type": ["null", "boolean"]},
+                "ad_group_status": {"type": ["null", "string"]},
+                "ad_group_serving_status": {"type": ["null", "string"]},
+                "ad_group_serving_state_reasons":{
+                    "type": ["null", "array"],
+                    "items": {
+                        "type": ["null", "string"]
+                    }
+                },
+                "modification_time": {"type": ["null", "string"], "format": "date-time"},
+                "automated_keywords_opt_in": {"type": ["null", "boolean"]},
+                "ad_group_display_status": {"type": ["null", "string"]},
+                "campaign_id": {"type": ["null", "integer"]},
+                "org_id": {"type": ["null", "integer"]}
+            }
+        },
+        "other": {"type": ["null", "boolean"]}
+    }
+}

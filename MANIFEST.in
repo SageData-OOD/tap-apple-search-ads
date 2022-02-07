@@ -1,0 +1,2 @@
+include LICENSE
+include tap_apple_search_ads/schemas/*.json

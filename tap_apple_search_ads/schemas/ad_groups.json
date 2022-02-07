@@ -1,0 +1,125 @@
+{
+    "type": ["null", "object"],
+    "properties": {
+        "automated_keywords_opt_in": {"type": ["null", "boolean"]},
+        "campaign_id": {"type": ["null", "integer"]},
+        "cpa_goal": {
+            "type": ["null", "object"],
+            "properties": {
+              "amount": {"type": ["null", "string"]},
+              "currency": {"type": ["null", "string"]}
+            }
+        },
+        "default_cpc_bid": {
+            "type": ["null", "object"],
+            "properties": {
+              "amount": {"type": ["null", "string"]},
+              "currency": {"type": ["null", "string"]}
+            }
+        },
+        "deleted": {"type": ["null", "boolean"]},
+        "display_status": {"type": ["null", "string"]},
+        "end_time": {"type": ["null", "string"], "format": "date-time"},
+        "id": {"type": ["null", "integer"]},
+        "modification_time": {"type": ["null", "string"], "format": "date-time"},
+        "name": {"type": ["null", "string"]},
+        "org_id": {"type": ["null", "integer"]},
+        "payment_model": {"type": ["null", "string"]},
+        "pricing_model": {"type": ["null", "string"]},
+        "serving_state_reasons": {
+            "type": ["null", "array"],
+            "items": {
+              "type": ["null", "string"]
+            }
+        },
+        "serving_status": {"type": ["null", "string"]},
+        "start_time": {"type": ["null", "string"], "format": "date-time"},
+        "status": {"type": ["null", "string"]},
+        "targeting_dimensions": {
+            "type": ["null", "object"],
+            "properties": {
+                "admin_area": {
+                  "type": ["null", "object"],
+                  "properties": {
+                      "included": {
+                          "type": ["null", "array"],
+                          "items": {
+                              "type": ["null", "string"]
+                          }
+                      }
+                  }
+              },
+                "age": {
+                  "type": ["null", "object"],
+                  "properties": {
+                      "included": {
+                          "type": ["null", "array"],
+                          "items": {
+                              "type": ["null", "string"]
+                          }
+                      }
+                  }
+              },
+                "app_downloaders": {
+                  "type": ["null", "object"],
+                  "properties": {
+                      "included": {"type": ["null", "string"]},
+                      "excluded": {"type": ["null", "string"]}
+                  }
+              },
+                "country": {
+                  "type": ["null", "object"],
+                  "properties": {
+                      "included": {
+                          "type": ["null", "array"],
+                          "items": {
+                              "type": ["null", "string"]
+                          }
+                      }
+                  }
+              },
+                "daypart": {
+                  "type": ["null", "object"],
+                  "properties": {
+                      "user_time": {
+                          "type": ["null", "string"]
+                      }
+                  }
+                },
+                "device_class": {
+                  "type": ["null", "object"],
+                  "properties": {
+                      "included": {
+                          "type": ["null", "array"],
+                          "items": {
+                              "type": ["null", "string"]
+                          }
+                      }
+                  }
+                },
+                "gender": {
+                  "type": ["null", "object"],
+                  "properties": {
+                      "included": {
+                          "type": ["null", "array"],
+                          "items": {
+                              "type": ["null", "string"]
+                          }
+                      }
+                  }
+                },
+                "locality": {
+                  "type": ["null", "object"],
+                  "properties": {
+                      "included": {
+                          "type": ["null", "array"],
+                          "items": {
+                              "type": ["null", "string"]
+                          }
+                      }
+                  }
+                }
+            }
+        }
+    }
+}

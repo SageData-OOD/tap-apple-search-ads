@@ -1,0 +1,63 @@
+{
+    "type": ["null", "object"],
+    "properties": {
+      "adam_id": {"type": ["null", "integer"]},
+      "ad_channel_type": {"type": ["null", "string"]},
+      "billing_event": {"type": ["null", "string"]},
+      "budget_amount": {
+        "type": ["null", "object"],
+        "properties": {
+          "amount": {"type": ["null", "string"]},
+          "currency": {"type": ["null", "string"]}
+        }
+      },
+      "budget_orders": {
+        "type": ["null", "array"],
+        "items": {
+          "type": ["null", "integer"]
+        }
+      },
+      "countries_or_regions": {"type": ["null", "string"]},
+      "country_or_region_serving_state_reasons": {"type": ["null", "string"]},
+      "daily_budget_amount": {
+        "type": ["null", "object"],
+        "properties": {
+          "amount": {"type": ["null", "string"]},
+          "currency": {"type": ["null", "string"]}
+        }
+      },
+      "deleted": {"type": ["null", "boolean"]},
+      "display_status": {"type": ["null", "string"]},
+      "end_time": {"type": ["null", "string"], "format": "date-time"},
+      "id": {"type": ["null", "integer"]},
+      "loc_invoice_details": {
+        "type": ["null", "object"],
+        "properties": {
+          "billing_contact_email": {"type": ["null", "string"]},
+          "buyer_email": {"type": ["null", "string"]},
+          "buyer_name": {"type": ["null", "string"]},
+          "client_name": {"type": ["null", "string"]},
+          "order_number": {"type": ["null", "string"]}
+        }
+      },
+      "modification_time": {"type": ["null", "string"], "format": "date-time"},
+      "name": {"type": ["null", "string"]},
+      "org_id": {"type": ["null", "integer"]},
+      "payment_model": {"type": ["null", "string"]},
+      "serving_state_reasons": {
+        "type": ["null", "array"],
+        "items": {
+          "type": ["null", "string"]
+        }
+      },
+      "serving_status": {"type": ["null", "string"]},
+      "start_time": {"type": ["null", "string"], "format": "date-time"},
+      "status": {"type": ["null", "string"]},
+      "supply_sources": {
+        "type": ["null", "array"],
+        "items": {
+          "type": ["null", "string"]
+        }
+      }
+    }
+}
