@@ -23,6 +23,7 @@ AUDIENCE = "https://appleid.apple.com"
 REQUIRED_CONFIG_KEYS = ["start_date", "end_date", "org_id", "private_key_file"]
 LOGGER = singer.get_logger()
 ENDPOINTS = {
+    "organizations": "/acls",
     "ad_groups": "/campaigns/{campaignId}/adgroups",
     "campaigns": "/campaigns",
     "ad_level_reports": "/reports/campaigns/{campaignId}/ads",
@@ -95,7 +96,8 @@ def generate_id(row, stream_id):
 def get_key_properties(stream_id):
     key_properties = {
         "ad_groups": ["id"],
-        "campaigns": ["id"]
+        "campaigns": ["id"],
+        "organizations": ["org_id"]
     }
     return key_properties.get(stream_id, ["record_id"])
 
@@ -108,6 +110,7 @@ def get_properties_for_auto_inclusion(stream_id, key_properties, replication_key
     properties = {
         "ad_groups": ["id"],
         "campaigns": ["id"],
+        "organizations": ["org_id"],
         "ad_level_reports": ["date", "campaign_id", "ad_group_id", "ad_id"],
         "ad_group_level_reports": ["date", "campaign_id", "ad_group_id"],
         "campaign_level_reports": ["date", "campaign_id"],
@@ -194,13 +197,13 @@ def refactor_property_name(record):
 
 
 def get_api_version(config):
-    return "v4" if config["auth_type"] == "oauth" else "v3"
+    return "v4" if config["auth_type"] == "oauth2" else "v3"
 
 
 def get_certificates(config):
-    # in certificate bases authentication, we need private as well public keys
+    # in certificate bases authentication, we need private as well pem value
     if config["auth_type"] == "certificate":
-        return config["public_key_file"], config["private_key_file"]
+        return config["pem_file"], config["private_key_file"]
     return None
 
 
@@ -239,8 +242,9 @@ def request_data(config, headers, endpoint, attr=None, query=None, campaign_id=N
             elif response.status_code != 200:
                 raise Exception(response.text)
 
-            total_results = response.json().get("pagination", {}).get("totalResults", {})
             results += response.json().get("data", [])
+            pagination = response.json().get("pagination")
+            total_results = pagination.get("totalResults", {}) if pagination else len(results)
 
             if len(results) == total_results:
                 break
@@ -257,7 +261,7 @@ def get_end_date(start_date, until_date):
 
 
 def get_campaign_ids(stream_id, config, headers):
-    if stream_id in ["campaigns", "campaign_level_reports"]:
+    if stream_id in ["campaigns", "campaign_level_reports", "organizations"]:
         return [None]
 
     endpoint = ENDPOINTS["campaigns"]
@@ -395,7 +399,7 @@ def set_up_authentication(timestamp, config):
 
 
 def get_request_headers(config):
-    if config["auth_type"] == "oauth":
+    if config["auth_type"] == "oauth2":
         now = datetime.now(tz=pytz.utc)
         timestamp = int(now.timestamp())
         cs, at, rh = set_up_authentication(timestamp, config)
@@ -410,10 +414,6 @@ def set_up_config(config):
     config["audience"] = AUDIENCE
     config["oauth_url"] = OAUTH_URL
     config["expiration_time"] = 43200  # 12hour
-    if config["public_key_file"]:
-        config["auth_type"] = "certificate"
-    else:
-        config["auth_type"] = "oauth"
 
 
 def sync(config, state, catalog):
