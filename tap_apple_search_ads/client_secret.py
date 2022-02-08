@@ -1,5 +1,4 @@
 import datetime
-import jwt
 import singer
 
 logger = singer.get_logger()
@@ -68,7 +67,9 @@ class ClientSecret:
             jwt_headers,
             self.algorithm
         )
-
+        # DP: importing here, circumvents AWS lambda runtime binary dependency issue
+        # In AWS Lambda context, we are only interested into the streams discovery
+        import jwt
         client_secret = jwt.encode(
             payload=jwt_payload,
             headers=jwt_headers,
