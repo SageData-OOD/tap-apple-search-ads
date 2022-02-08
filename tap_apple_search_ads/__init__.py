@@ -16,11 +16,11 @@ from .access_token import AccessToken
 from .client_secret import ClientSecret
 from .request_headers import RequestHeaders
 
-HOST_URL = "https://api.searchads.apple.com/api/v4"
+HOST_URL = "https://api.searchads.apple.com/api/{version}"
 OAUTH_URL = "https://appleid.apple.com/auth/oauth2/token"
 AUDIENCE = "https://appleid.apple.com"
 
-REQUIRED_CONFIG_KEYS = ["start_date", "end_date", "client_id", "team_id", "key_id", "org_id", "private_key_value"]
+REQUIRED_CONFIG_KEYS = ["start_date", "end_date", "org_id", "private_key_file"]
 LOGGER = singer.get_logger()
 ENDPOINTS = {
     "ad_groups": "/campaigns/{campaignId}/adgroups",
@@ -147,6 +147,11 @@ def discover():
     raw_schemas = load_schemas()
     streams = []
     for stream_id, schema in raw_schemas.items():
+
+        # 404-not found for "ad_level_reports" endpoint [hence, skipping it for now]
+        if stream_id == "ad_level_reports":
+            continue
+
         stream_metadata = create_metadata_for_report(stream_id, schema, get_key_properties(stream_id))
         key_properties = get_key_properties(stream_id)
         streams.append(
@@ -188,14 +193,27 @@ def refactor_property_name(record):
         return converted_data
 
 
+def get_api_version(config):
+    return "v4" if config["auth_type"] == "oauth" else "v3"
+
+
+def get_certificates(config):
+    # in certificate bases authentication, we need private as well public keys
+    if config["auth_type"] == "certificate":
+        return config["public_key_file"], config["private_key_file"]
+    return None
+
+
 @backoff.on_exception(backoff.expo, AppleAdsRateLimitError, max_tries=5, factor=2)
 @utils.ratelimit(1, 1)
 def request_data(config, headers, endpoint, attr=None, query=None, campaign_id=None):
-    url = HOST_URL + endpoint.format(campaignId=campaign_id)
+    v = get_api_version(config)
+    url = HOST_URL.format(version=v) + endpoint.format(campaignId=campaign_id)
 
+    cert = get_certificates(config)
     # every report will have query object
     if query:
-        response = requests.post(url, headers=headers, json=query)
+        response = requests.post(url, headers=headers, json=query, cert=cert)
 
         if response.status_code == 429:
             raise AppleAdsRateLimitError(response.text)
@@ -214,7 +232,7 @@ def request_data(config, headers, endpoint, attr=None, query=None, campaign_id=N
             attr["offset"] = len(results)
             if attr:
                 new_url = url + "?" + "&".join([f"{k}={v}" for k, v in attr.items()])
-            response = requests.get(new_url, headers=headers)
+            response = requests.get(new_url, headers=headers, cert=cert)
 
             if response.status_code == 429:
                 raise AppleAdsRateLimitError(response.text)
@@ -348,21 +366,17 @@ def sync_endpoints(config, state, stream, headers=None):
                 counter.increment()
 
 
-def read_private_key_from_file(private_key_path) -> str:
-    with open(private_key_path, "r") as key_file:
-        private_key = "".join(key_file.readlines()).strip()
+def read_key_from_file(key_path) -> str:
+    with open(key_path, "r") as key_file:
+        key = "".join(key_file.readlines()).strip()
 
-    return private_key
+    return key
 
 
 def load_private_key(config) -> str:
-    if "private_key_value" in config:
-        private_key = config["private_key_value"]
-
-    elif "private_key_file" in config:
+    if "private_key_file" in config:
         private_key_file = config["private_key_file"]
-        private_key = read_private_key_from_file(private_key_file)
-
+        private_key = read_key_from_file(private_key_file)
     else:
         raise TapAppleSearchAdsException("Missing private key configuration parameters")
 
@@ -381,11 +395,14 @@ def set_up_authentication(timestamp, config):
 
 
 def get_request_headers(config):
-    now = datetime.now(tz=pytz.utc)
-    timestamp = int(now.timestamp())
-    cs, at, rh = set_up_authentication(timestamp, config)
-    private_key = load_private_key(config)
-    return rh.value(at.value(cs.value(private_key)))
+    if config["auth_type"] == "oauth":
+        now = datetime.now(tz=pytz.utc)
+        timestamp = int(now.timestamp())
+        cs, at, rh = set_up_authentication(timestamp, config)
+        private_key = load_private_key(config)
+        return rh.value(at.value(cs.value(private_key)))
+    else:
+        return {"Content-Type": "application/json", "Authorization": f"orgId={config['org_id']}"}
 
 
 def set_up_config(config):
@@ -393,6 +410,10 @@ def set_up_config(config):
     config["audience"] = AUDIENCE
     config["oauth_url"] = OAUTH_URL
     config["expiration_time"] = 43200  # 12hour
+    if config["public_key_file"]:
+        config["auth_type"] = "certificate"
+    else:
+        config["auth_type"] = "oauth"
 
 
 def sync(config, state, catalog):
@@ -402,10 +423,6 @@ def sync(config, state, catalog):
     # Loop over selected streams in catalog
     for stream in catalog.get_selected_streams(state):
         LOGGER.info("Syncing stream:" + stream.tap_stream_id)
-
-        # 404-not found for "ad_level_reports" endpoint [hence, skipping it for now]
-        if stream.tap_stream_id in ["ad_level_reports"]:
-            continue
 
         if stream.tap_stream_id in ["ad_level_reports", "ad_group_level_reports", "campaign_level_reports",
                                     "search_term_level_reports"]:
