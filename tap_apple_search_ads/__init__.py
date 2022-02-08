@@ -103,7 +103,13 @@ def get_key_properties(stream_id):
 
 
 def get_bookmark(stream_id):
-    return "date"
+    bookmark = {
+        "ad_level_reports": "date",
+        "ad_group_level_reports": "date",
+        "campaign_level_reports": "date",
+        "search_term_level_reports": "date"
+    }
+    return bookmark.get(stream_id)
 
 
 def get_properties_for_auto_inclusion(stream_id, key_properties, replication_key):
