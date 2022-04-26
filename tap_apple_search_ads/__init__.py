@@ -289,6 +289,22 @@ def refactor_records(tap_data):
     return records
 
 
+def get_valid_start_date(date_to_poll):
+    """
+    fix for data freshness
+    e.g. Sunday's data is available at 3 AM UTC on Monday
+    If integration is set to sync at 1AM then a problem occurs
+    """
+
+    utcnow = datetime.utcnow()
+    date_to_poll = datetime.strptime(date_to_poll, "%Y-%m-%d")
+
+    if date_to_poll >= utcnow - timedelta(days=3):
+        date_to_poll = utcnow - timedelta(days=4)
+
+    return date_to_poll.strftime("%Y-%m-%d")
+
+
 def sync_reports(config, state, stream, headers=None):
     bookmark_column = get_bookmark(stream.tap_stream_id)
     mdata = metadata.to_map(stream.metadata)
@@ -300,8 +316,10 @@ def sync_reports(config, state, stream, headers=None):
         key_properties=stream.key_properties,
     )
 
-    start_date = singer.get_bookmark(state, stream.tap_stream_id, bookmark_column) \
+    bookmark = singer.get_bookmark(state, stream.tap_stream_id, bookmark_column) \
         if state.get("bookmarks", {}).get(stream.tap_stream_id) else config["start_date"]
+
+    start_date = get_valid_start_date(bookmark)
 
     query = set_query_object(stream.tap_stream_id)
     endpoint = ENDPOINTS[stream.tap_stream_id]
