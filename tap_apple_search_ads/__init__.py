@@ -21,6 +21,7 @@ OAUTH_URL = "https://appleid.apple.com/auth/oauth2/token"
 AUDIENCE = "https://appleid.apple.com"
 
 REQUIRED_CONFIG_KEYS = ["start_date", "end_date", "org_id", "private_key_file"]
+DEFAULT_CONVERSION_WINDOW = 14
 LOGGER = singer.get_logger()
 ENDPOINTS = {
     "organizations": "/acls",
@@ -289,7 +290,7 @@ def refactor_records(tap_data):
     return records
 
 
-def get_valid_start_date(date_to_poll):
+def get_valid_start_date(date_to_poll, conversion_window):
     """
     fix for data freshness
     e.g. Sunday's data is available at 3 AM UTC on Monday
@@ -299,8 +300,8 @@ def get_valid_start_date(date_to_poll):
     utcnow = datetime.utcnow()
     date_to_poll = datetime.strptime(date_to_poll, "%Y-%m-%d")
 
-    if date_to_poll >= utcnow - timedelta(days=3):
-        date_to_poll = utcnow - timedelta(days=4)
+    if date_to_poll >= utcnow - timedelta(days=conversion_window):
+        date_to_poll = utcnow - timedelta(days=conversion_window)
 
     return date_to_poll.strftime("%Y-%m-%d")
 
@@ -319,7 +320,8 @@ def sync_reports(config, state, stream, headers=None):
     bookmark = singer.get_bookmark(state, stream.tap_stream_id, bookmark_column) \
         if state.get("bookmarks", {}).get(stream.tap_stream_id) else config["start_date"]
 
-    start_date = get_valid_start_date(bookmark)
+    conversion_window = config.get("conversion_window", DEFAULT_CONVERSION_WINDOW)
+    start_date = get_valid_start_date(bookmark, conversion_window)
 
     query = set_query_object(stream.tap_stream_id)
     endpoint = ENDPOINTS[stream.tap_stream_id]
