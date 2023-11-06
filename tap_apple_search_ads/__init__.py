@@ -267,14 +267,14 @@ def get_end_date(start_date, until_date):
     return end_date.strftime("%Y-%m-%d")
 
 
-def get_campaign_ids(stream_id, config, headers):
+def get_campaigns(stream_id, config, headers):
     if stream_id in ["campaigns", "campaign_level_reports", "organizations"]:
-        return [None]
+        return []
 
     endpoint = ENDPOINTS["campaigns"]
     attr = {"limit": 100, "offset": 0}
     campaigns = request_data(config, headers, endpoint, attr=attr)
-    return [c["id"] for c in campaigns]
+    return campaigns
 
 
 def refactor_records(tap_data):
@@ -325,7 +325,7 @@ def sync_reports(config, state, stream, headers=None):
 
     query = set_query_object(stream.tap_stream_id)
     endpoint = ENDPOINTS[stream.tap_stream_id]
-    campaign_ids = get_campaign_ids(stream.tap_stream_id, config, headers)
+    campaigns = get_campaigns(stream.tap_stream_id, config, headers)
 
     while True:
         query["startTime"] = start_date
@@ -339,7 +339,12 @@ def sync_reports(config, state, stream, headers=None):
 
         # for campaign_level_reports, campaign_ids=[None]
         # will fetch records of all campaign_ids for specific time chunk, in a loop until it reaches to the until_date.
-        for cid in campaign_ids:
+        for campaign in campaigns:
+            if "APPSTORE_TODAY_TAB" in campaign.get("supplySources", []) and stream.tap_stream_id == "search_term_level_reports":
+                continue
+
+            cid = campaign["id"]
+
             LOGGER.info("Querying -> %s for campaign_id -> %s", stream.tap_stream_id, cid)
             tap_data = request_data(config, headers, endpoint, query=query, campaign_id=cid)
 
@@ -377,11 +382,12 @@ def sync_endpoints(config, state, stream, headers=None):
     )
 
     endpoint = ENDPOINTS[stream.tap_stream_id]
-    campaign_ids = get_campaign_ids(stream.tap_stream_id, config, headers)
+    campaigns = get_campaigns(stream.tap_stream_id, config, headers)
     attr = {"limit": 100, "offset": 0}
 
     LOGGER.info("Querying -------> %s", stream.tap_stream_id)
-    for cid in campaign_ids:
+    for campaign in campaigns:
+        cid = campaign["id"]
         LOGGER.info("Querying -> %s for campaign_id -> %s", stream.tap_stream_id, cid)
         tap_data = request_data(config, headers, endpoint, attr=attr, campaign_id=cid)
 
@@ -455,7 +461,6 @@ def sync(config, state, catalog):
             sync_reports(config, state, stream, headers=request_headers_value)
         else:
             sync_endpoints(config, state, stream, headers=request_headers_value)
-    return
 
 
 @utils.handle_top_exception(LOGGER)
