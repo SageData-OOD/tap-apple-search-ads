@@ -269,7 +269,7 @@ def get_end_date(start_date, until_date):
 
 def get_campaigns(stream_id, config, headers):
     if stream_id in ["campaigns", "campaign_level_reports", "organizations"]:
-        return []
+        return [{"id": None}]
 
     endpoint = ENDPOINTS["campaigns"]
     attr = {"limit": 100, "offset": 0}
