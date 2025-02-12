@@ -1,68 +1,307 @@
 {
-    "type": ["null", "object"],
+    "type": [
+      "null",
+      "object"
+    ],
     "properties": {
-        "insights": {"type": ["null", "string"]},
-        "record_id": {"type": ["null", "string"]},
-        "metrics": {
-            "type": ["null", "object"],
+      "record_id": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "metrics": {
+        "type": [
+          "null",
+          "object"
+        ],
+        "properties": {
+          "other": {
+            "type": [
+              "boolean",
+              "null"
+            ]
+          },
+          "total": {
+            "type": [
+              "object",
+              "null"
+            ],
             "properties": {
-                "avg_cpa": {
-                    "type": ["null", "object"],
-                    "properties": {
-                      "amount": {"type": ["null", "string"]},
-                      "currency": {"type": ["null", "string"]}
-                    }
-                },
-                "avg_cpm": {
-                    "type": ["null", "object"],
-                    "properties": {
-                      "amount": {"type": ["null", "string"]},
-                      "currency": {"type": ["null", "string"]}
-                    }
-                },
-                "avg_cpt": {
-                    "type": ["null", "object"],
-                    "properties": {
-                      "amount": {"type": ["null", "string"]},
-                      "currency": {"type": ["null", "string"]}
-                    }
-                },
-                "conversion_rate": {"type": ["null", "number"]},
-                "date": {"type": ["null", "string"], "format": "date-time"},
-                "impressions": {"type": ["null", "integer"]},
-                "installs": {"type": ["null", "integer"]},
-                "lat_off_installs": {"type": ["null", "integer"]},
-                "lat_on_installs": {"type": ["null", "integer"]},
-                "local_spend": {
-                    "type": ["null", "object"],
-                    "properties": {
-                      "amount": {"type": ["null", "string"]},
-                      "currency": {"type": ["null", "string"]}
-                    }
-                },
-                "new_downloads": {"type": ["null", "integer"]},
-                "redownloads": {"type": ["null", "integer"]},
-                "taps": {"type": ["null", "integer"]},
-                "ttr": {"type": ["null", "number"]}
+              "impressions": {
+                "type": [
+                  "integer",
+                  "null"
+                ]
+              },
+              "taps": {
+                "type": [
+                  "integer",
+                  "null"
+                ]
+              },
+              "ttr": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "avg_cpt": {
+                "type": [
+                  "object",
+                  "null"
+                ],
+                "properties": {
+                  "amount": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "currency": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                }
+              },
+              "avg_cpm": {
+                "type": [
+                  "object",
+                  "null"
+                ],
+                "properties": {
+                  "amount": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "currency": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                }
+              },
+              "local_spend": {
+                "type": [
+                  "object",
+                  "null"
+                ],
+                "properties": {
+                  "amount": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "currency": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                }
+              },
+               "total_installs": {
+                "type": [
+                  "integer",
+                  "null"
+                ]
+              },
+              "total_new_downloads": {
+                "type": [
+                  "integer",
+                  "null"
+                ]
+              },
+              "total_redownloads": {
+                "type": [
+                  "integer",
+                  "null"
+                ]
+              },
+              "view_installs": {
+                "type": [
+                  "integer",
+                  "null"
+                ]
+              },
+              "tap_installs": {
+                "type": [
+                  "integer",
+                  "null"
+                ]
+              },
+               "tap_new_downloads": {
+                "type": [
+                  "integer",
+                  "null"
+                ]
+              },
+              "tap_redownloads": {
+                "type": [
+                  "integer",
+                  "null"
+                ]
+              },
+               "view_new_downloads": {
+                "type": [
+                  "integer",
+                  "null"
+                ]
+              },
+              "view_redownloads": {
+                "type": [
+                  "integer",
+                  "null"
+                ]
+              },
+              "total_avg_cpi": {
+                "type": [
+                  "object",
+                  "null"
+                ],
+                "properties": {
+                  "amount": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "currency": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                }
+              },
+               "total_install_rate": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "tap_install_cpi": {
+                "type": [
+                  "object",
+                  "null"
+                ],
+                "properties": {
+                  "amount": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "currency": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                }
+              },
+              "tap_install_rate": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              }
             }
-        },
-        "metadata": {
-            "type": ["null", "object"],
-            "properties": {
-                "keyword_id": {"type": ["null", "string"]},
-                "keyword": {"type": ["null", "string"]},
-                "match_type": {"type": ["null", "string"]},
-                "bid_amount": {"type": ["null", "string"]},
-                "deleted": {"type": ["null", "string"]},
-                "keyword_display_status": {"type": ["null", "string"]},
-                "ad_group_id": {"type": ["null", "string"]},
-                "ad_group_name": {"type": ["null", "string"]},
-                "ad_group_deleted": {"type": ["null", "string"]},
-                "search_term_text": {"type": ["null", "string"]},
-                "search_term_source": {"type": ["null", "string"]},
-                "campaign_id": {"type": ["null", "integer"]}
-            }
-        },
-        "other": {"type": ["null", "boolean"]}
+          },
+          "date": {
+            "type": [
+              "string",
+              "null"
+            ],
+             "format": "date"
+          }
+        }
+      },
+      "metadata": {
+        "type": [
+          "null",
+          "object"
+        ],
+        "properties": {
+          "keyword_id": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "keyword": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+           "match_type": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+           "bid_amount": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+           "deleted": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+           "keyword_display_status": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+           "ad_group_id": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+           "ad_group_name": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+           "ad_group_deleted": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "search_term_text": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "search_term_source": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "campaign_id": {
+            "type": [
+              "null",
+              "integer"
+            ]
+          }
+        }
+      }
     }
-}
+  }

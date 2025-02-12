@@ -1,105 +1,515 @@
 {
-    "type": ["null", "object"],
+    "type": [
+      "null",
+      "object"
+    ],
     "properties": {
-        "insights": {"type": ["null", "string"]},
-        "record_id": {"type": ["null", "string"]},
-        "metrics": {
-            "type": ["null", "object"],
+      "record_id": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "metrics": {
+        "type": [
+          "null",
+          "object"
+        ],
+        "properties": {
+          "ad_group_id": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "ad_group_name": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "start_time": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          },
+          "end_time": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          },
+          "cpa_goal": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "pricing_model": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "default_bid_amount": {
+            "type": [
+              "object",
+              "null"
+            ],
             "properties": {
-                "avg_cpa": {
-                    "type": ["null", "object"],
-                    "properties": {
-                      "amount": {"type": ["null", "string"]},
-                      "currency": {"type": ["null", "string"]}
-                    }
-                },
-                "avg_cpm": {
-                    "type": ["null", "object"],
-                    "properties": {
-                      "amount": {"type": ["null", "string"]},
-                      "currency": {"type": ["null", "string"]}
-                    }
-                },
-                "avg_cpt": {
-                    "type": ["null", "object"],
-                    "properties": {
-                      "amount": {"type": ["null", "string"]},
-                      "currency": {"type": ["null", "string"]}
-                    }
-                },
-                "conversion_rate": {"type": ["null", "number"]},
-                "date": {"type": ["null", "string"], "format": "date-time"},
-                "impressions": {"type": ["null", "integer"]},
-                "installs": {"type": ["null", "integer"]},
-                "lat_off_installs": {"type": ["null", "integer"]},
-                "lat_on_installs": {"type": ["null", "integer"]},
-                "local_spend": {
-                    "type": ["null", "object"],
-                    "properties": {
-                      "amount": {"type": ["null", "string"]},
-                      "currency": {"type": ["null", "string"]}
-                    }
-                },
-                "new_downloads": {"type": ["null", "integer"]},
-                "redownloads": {"type": ["null", "integer"]},
-                "taps": {"type": ["null", "integer"]},
-                "ttr": {"type": ["null", "number"]}
+              "amount": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "currency": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
             }
-        },
-        "metadata": {
-            "type": ["null", "object"],
+          },
+          "deleted": {
+            "type": [
+              "boolean",
+              "null"
+            ]
+          },
+          "ad_group_status": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "ad_group_serving_status": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+           "ad_group_serving_state_reasons": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "string"
+            }
+          },
+          "modification_time": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          },
+          "automated_keywords_opt_in": {
+            "type": [
+              "boolean",
+              "null"
+             ]
+          },
+           "ad_group_display_status": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "campaign_id": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+           "org_id": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "country_or_region": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "device_class": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "impressions": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "taps": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "ttr": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+         "avg_cpt": {
+            "type": [
+              "object",
+              "null"
+            ],
             "properties": {
-                "campaign_id": {"type": ["null", "integer"]},
-                "campaign_name": {"type": ["null", "string"]},
-                "deleted": {"type": ["null", "boolean"]},
-                "campaign_status": {"type": ["null", "string"]},
-                "app": {
-                    "type": ["null", "object"],
-                    "properties": {
-                      "app_name": {"type": ["null", "string"]},
-                      "adam_id": {"type": ["null", "integer"]}
-                    }
-                },
-                "serving_status": {"type": ["null", "string"]},
-                "serving_state_reasons": {
-                    "type": ["null", "array"],
-                    "items": {
-                        "type": ["null", "string"]
-                    }
-                },
-                "countries_or_regions": {
-                    "type": ["null", "array"],
-                    "items": {
-                        "type": ["null", "string"]
-                    }
-                },
-                "modification_time": {"type": ["null", "string"], "format": "date-time"},
-                "total_budget": {
-                    "type": ["null", "object"],
-                    "properties": {
-                      "amount": {"type": ["null", "string"]},
-                      "currency": {"type": ["null", "string"]}
-                    }
-                },
-                "daily_budget": {
-                    "type": ["null", "object"],
-                    "properties": {
-                      "amount": {"type": ["null", "string"]},
-                      "currency": {"type": ["null", "string"]}
-                    }
-                },
-                "display_status": {"type": ["null", "string"]},
-                "supply_sources": {
-                    "type": ["null", "array"],
-                    "items": {
-                        "type": ["null", "string"]
-                    }
-                },
-                "ad_channel_type": {"type": ["null", "string"]},
-                "org_id": {"type": ["null", "integer"]},
-                "country_or_region_serving_state_reasons": {"type": ["null", "string"]}
+              "amount": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "currency": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
             }
-        },
-        "other": {"type": ["null", "boolean"]}
+          },
+          "avg_cpm": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "properties": {
+              "amount": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "currency": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            }
+          },
+          "local_spend": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "properties": {
+              "amount": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "currency": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            }
+          },
+          "total_installs": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "total_new_downloads": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+           "total_redownloads": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+           "view_installs": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+           "tap_installs": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+           "tap_new_downloads": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "tap_redownloads": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+           "view_new_downloads": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "view_redownloads": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "total_avg_cpi": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "properties": {
+              "amount": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+               "currency": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            }
+          },
+          "total_install_rate": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+           "tap_install_cpi": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "properties": {
+              "amount": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "currency": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            }
+          },
+           "tap_install_rate": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "date": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date"
+          }
+        }
+      },
+      "metadata": {
+        "type": [
+          "null",
+          "object"
+        ],
+        "properties": {
+           "ad_channel_type": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "billing_event": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "supply_sources": {
+            "type": [
+              "array",
+              "null"
+            ],
+             "items": {
+              "type": "string"
+            }
+          },
+          "campaign_id": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "campaign_name": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+           "deleted": {
+            "type": [
+              "boolean",
+              "null"
+            ]
+          },
+          "campaign_status": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "app": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "properties": {
+              "app_name": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "adam_id": {
+                "type": [
+                  "integer",
+                  "null"
+                ]
+              }
+            }
+          },
+         "serving_status": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "serving_state_reasons": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "string"
+            }
+          },
+          "countries_or_regions": {
+            "type": [
+              "array",
+              "null"
+            ],
+             "items": {
+              "type": "string"
+            }
+          },
+           "modification_time": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          },
+          "total_budget": {
+             "type": [
+              "object",
+              "null"
+            ],
+            "properties": {
+              "amount": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "currency": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            }
+          },
+          "daily_budget_amount": {
+             "type": [
+              "object",
+              "null"
+            ],
+            "properties": {
+               "amount": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "currency": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            }
+          },
+          "display_status": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+           "org_id": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "country_or_region_serving_state_reasons": {
+             "type": [
+              "object",
+              "null"
+            ]
+          },
+           "country_or_region": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "device_class": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      }
     }
-}
+  }

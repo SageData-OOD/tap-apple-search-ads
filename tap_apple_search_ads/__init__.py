@@ -282,9 +282,7 @@ def refactor_records(tap_data):
     records = []
     for row in tap_data:
         records += [{
-            "insights": row.get("insights"),
             "metadata": row.get("metadata"),
-            "other": row.get("other"),
             "metrics": metric
         } for metric in row.get("granularity", [])]
     return records

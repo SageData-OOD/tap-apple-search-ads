@@ -12,8 +12,6 @@
               "type": ["null", "string"]
           }
       },
-      "cert_expiration_date": {"type": ["null", "string"], "format": "date-time"},
-      "parent_org_id": {"type": ["null", "integer"]},
-      "display_name": {"type": ["null", "string"]}
+      "parent_org_id": {"type": ["null", "integer"]}
     }
 }
