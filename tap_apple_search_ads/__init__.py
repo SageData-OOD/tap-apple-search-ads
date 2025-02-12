@@ -60,6 +60,10 @@ def set_query_object(stream_id):
         "returnRecordsWithNoMetrics": False
     }
 
+    if stream_id == "search_term_level_reports":
+        # that is the only supported timezone for this report in API v5
+        query["timeZone"] = "ORTZ"
+
     return query
 
 

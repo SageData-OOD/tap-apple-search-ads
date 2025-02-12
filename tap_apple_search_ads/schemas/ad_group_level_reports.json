@@ -75,7 +75,7 @@
           "deleted": { "type": ["boolean", "null"] },
           "ad_group_status": { "type": ["string", "null"] },
           "ad_group_serving_status": { "type": ["string", "null"] },
-           "ad_group_serving_state_reasons": { "type": ["array", "null"], "items": { "type": "string" } },
+            "ad_group_serving_state_reasons": { "type": ["array", "null"], "items": { "type": "string" } },
           "modification_time": { "type": ["string", "null"], "format": "date-time" },
           "automated_keywords_opt_in": { "type": ["boolean", "null"] },
            "ad_group_display_status": { "type": ["string", "null"] },
