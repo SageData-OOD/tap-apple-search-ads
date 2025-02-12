@@ -343,171 +343,93 @@
           "object"
         ],
         "properties": {
-           "ad_channel_type": {
-            "type": [
-              "string",
-              "null"
-            ]
+          "ad_channel_type": {
+            "type": ["string", "null"]
           },
           "billing_event": {
-            "type": [
-              "string",
-              "null"
-            ]
+            "type": ["string", "null"]
           },
           "supply_sources": {
-            "type": [
-              "array",
-              "null"
-            ],
-             "items": {
+            "type": ["array", "null"],
+            "items": {
               "type": "string"
             }
           },
           "campaign_id": {
-            "type": [
-              "integer",
-              "null"
-            ]
+            "type": ["integer", "null"]
           },
           "campaign_name": {
-            "type": [
-              "string",
-              "null"
-            ]
+            "type": ["string", "null"]
           },
-           "deleted": {
-            "type": [
-              "boolean",
-              "null"
-            ]
+          "deleted": {
+            "type": ["boolean", "null"]
           },
           "campaign_status": {
-            "type": [
-              "string",
-              "null"
-            ]
+            "type": ["string", "null"]
           },
           "app": {
-            "type": [
-              "object",
-              "null"
-            ],
+            "type": ["object", "null"],
             "properties": {
               "app_name": {
-                "type": [
-                  "string",
-                  "null"
-                ]
+                "type": ["string", "null"]
               },
               "adam_id": {
-                "type": [
-                  "integer",
-                  "null"
-                ]
+                "type": ["integer", "null"]
               }
             }
           },
-         "serving_status": {
-            "type": [
-              "string",
-              "null"
-            ]
+          "serving_status": {
+            "type": ["string", "null"]
           },
           "serving_state_reasons": {
-            "type": [
-              "array",
-              "null"
-            ],
+            "type": ["array", "null"],
             "items": {
               "type": "string"
             }
           },
           "countries_or_regions": {
-            "type": [
-              "array",
-              "null"
-            ],
-             "items": {
+            "type": ["array", "null"],
+            "items": {
               "type": "string"
             }
           },
-           "modification_time": {
-            "type": [
-              "string",
-              "null"
-            ],
+          "modification_time": {
+            "type": ["string", "null"],
             "format": "date-time"
           },
           "total_budget": {
-             "type": [
-              "object",
-              "null"
-            ],
+            "type": ["object", "null"],
             "properties": {
               "amount": {
-                "type": [
-                  "string",
-                  "null"
-                ]
+                "type": ["string", "null"]
               },
               "currency": {
-                "type": [
-                  "string",
-                  "null"
-                ]
+                "type": ["string", "null"]
               }
             }
           },
           "daily_budget_amount": {
-             "type": [
-              "object",
-              "null"
-            ],
+            "type": ["object", "null"],
             "properties": {
-               "amount": {
-                "type": [
-                  "string",
-                  "null"
-                ]
+              "amount": {
+                "type": ["string", "null"]
               },
               "currency": {
-                "type": [
-                  "string",
-                  "null"
-                ]
+                "type": ["string", "null"]
               }
             }
           },
           "display_status": {
-            "type": [
-              "string",
-              "null"
-            ]
+            "type": ["string", "null"]
           },
-           "org_id": {
-            "type": [
-              "integer",
-              "null"
-            ]
+          "org_id": {
+            "type": ["integer", "null"]
           },
-          "country_or_region_serving_state_reasons": {
-             "type": [
-              "object",
-              "null"
-            ]
-          },
-           "country_or_region": {
-            "type": [
-              "string",
-              "null"
-            ]
+          "country_or_region": {
+            "type": ["string", "null"]
           },
           "device_class": {
-            "type": [
-              "string",
-              "null"
-            ]
+            "type": ["string", "null"]
           }
         }
       }
