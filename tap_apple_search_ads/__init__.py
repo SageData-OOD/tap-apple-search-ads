@@ -191,8 +191,11 @@ def camel_to_snake_case(name):
     exceptional = {
         "avg_c_p_a": "avg_cpa",
         "avg_c_p_m": "avg_cpm",
-        "avg_c_p_t": "avg_cpt"
+        "avg_c_p_t": "avg_cpt",
+        "tap_install_c_p_i": "tap_install_cpi",
+        "total_avg_c_p_i": "total_avg_cpi"
     }
+    
     sn = re.sub(r'(?<!^)(?=[A-Z])', '_', name).lower()
     sn = sn.split(" ")[0]  # i.e. "duration (in second)" -> "duration"
     return exceptional.get(sn, sn)
