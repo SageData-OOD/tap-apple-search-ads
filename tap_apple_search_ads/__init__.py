@@ -204,7 +204,7 @@ def refactor_property_name(record):
 
 
 def get_api_version(config):
-    return "v4" if config["auth_type"] == "oauth2" else "v3"
+    return "v5" if config["auth_type"] == "oauth2" else "v5"
 
 
 def get_certificates(config):
